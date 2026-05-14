@@ -1,0 +1,60 @@
+/**
+ * ==========================================
+ * ARQUIVO DE EXEMPLOS: .graflow
+ * Use este arquivo para testar a engine.
+ * ==========================================
+ */
+
+/**
+ * 1. E-commerce: Fluxo Feliz
+ * Caminho padrão de compra sem erros.
+ * @tags happy-path
+ */
+Home -> Search -> Product -> AddCart -> Checkout -> Payment -> Success
+
+/**
+ * 2. E-commerce: Falha e Recuperação
+ * Demonstração de loop temporal. O usuário tenta pagar,
+ * recebe erro (CardDeclined) e tenta novamente.
+ */
+Payment -> Error(CardDeclined) -> Retry -> Payment -> Success
+
+/**
+ * 3. Infraestrutura (Broadcast)
+ * O LoadBalancer distribui requisições para 3 servidores.
+ * Cada servidor conecta em seu respectivo banco de dados.
+ * @tags infra, microservices
+ */
+LoadBalancer -> [ ServerA, ServerB, ServerC ]
+ServerA -> Database_Primary
+ServerB -> Database_ReadReplica
+ServerC -> Cache_Redis
+
+/**
+ * 4. Redes Sociais (Conexões)
+ * Grafo cíclico e denso.
+ * Ana segue Bob e Carol. Bob segue Ana de volta.
+ */
+User_Ana -> [ User_Bob, User_Carol ]
+User_Bob -> User_Ana
+
+/**
+ * 4.1 Viralização de Post
+ * Um post sendo compartilhado por múltiplos usuários e 
+ * finalmente sendo visualizado no feed.
+ */
+Post_Viral -> [ Share_Ana, Share_Bob, Share_Carol ] -> View_Feed
+
+/**
+ * 5. Máquina de Estados (Pedido)
+ * Todas as transições possíveis de um pedido.
+ */
+Order_Created -> Payment_Pending -> [ Payment_Approved, Payment_Denied ]
+Payment_Approved -> Shipping -> Delivered
+Payment_Denied -> Canceled
+
+/**
+ * 6. Teste de Metadados Complexos
+ * Uso de parênteses para passar valores de sensores e configurações de nuvem.
+ */
+Sensor_Temp(45C) -> Gateway -> Cloud(AWS) -> Alert(Critical)
